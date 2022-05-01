@@ -26,7 +26,7 @@ func TestCreateStorage(t *testing.T) {
 
 func TestTempImage(t *testing.T) {
 	assert := assert.New(t)
-	file, _ := assets.Open("test_assets/taiga1.JPG")
+	file, _ := assets.Open("test_assets/cat1.JPG")
 	img, err := database.TempImage(file)
 	assert.Nil(err)
 	assert.NotNil(img)
@@ -34,12 +34,12 @@ func TestTempImage(t *testing.T) {
 
 func TestSaveImage(t *testing.T) {
 	assert := assert.New(t)
-	file, _ := assets.Open("test_assets/taiga2.JPG")
+	file, _ := assets.Open("test_assets/cat2.JPG")
 	defer file.Close()
 	storage := SetupStorage(t)
 	err := storage.Save(file, []string{"old", "safe"})
 	assert.Nil(err)
-	file, _ = assets.Open("test_assets/taiga2.JPG")
+	file, _ = assets.Open("test_assets/cat2.JPG")
 	err = storage.Save(file, []string{"young", "safe"})
 	assert.Nil(err)
 }

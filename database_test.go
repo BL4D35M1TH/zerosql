@@ -67,9 +67,9 @@ func TestByTags(t *testing.T) {
 func TestCreateTag(t *testing.T) {
 	assert := assert.New(t)
 	db := Setup(t)
-	err := db.SaveTags([]string{"boobs"})
+	err := db.SaveTags([]string{"bird"})
 	assert.Nil(err)
-	err = db.SaveTags([]string{"boobs"})
+	err = db.SaveTags([]string{"bird"})
 	assert.Nil(err)
 }
 
