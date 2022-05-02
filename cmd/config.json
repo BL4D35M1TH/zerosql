@@ -1,0 +1,5 @@
+{
+    "directory": "./root",
+    "database": "./test.db",
+    "address": ":8080"
+}
