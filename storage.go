@@ -27,7 +27,6 @@ type DataStore struct {
 
 type IData interface {
 	Save(io.Reader, []string) error
-	ServeHTTP(http.ResponseWriter, *http.Request)
 }
 
 func CreateStorage(f string, db Store) (IData, error) {
@@ -49,17 +48,11 @@ func CreateStorage(f string, db Store) (IData, error) {
 			return nil, fmt.Errorf("create%sDir: %w", dir, err)
 		}
 	}
-	fileServer := http.FileServer(http.Dir(f))
 	storage := DataStore{
-		Root:   f,
-		DB:     db,
-		Server: fileServer,
+		Root: f,
+		DB:   db,
 	}
 	return storage, nil
-}
-
-func (s DataStore) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	s.Server.ServeHTTP(w, r)
 }
 
 func TempImage(r io.Reader) (*Image, error) {
@@ -129,15 +122,15 @@ func (s DataStore) NewImage(img *Image) error {
 	mdImg := path.Join(s.Root, "md", filename)
 	smImg := path.Join(s.Root, "sm", filename)
 	os.Rename(img.Path, lgImg)
-	if img.Data.Bounds().Dy() > 1080 {
-		reimg := imaging.Resize(img.Data, 0, 1080, imaging.Box)
+	if img.Data.Bounds().Dx() > 1080 {
+		reimg := imaging.Resize(img.Data, 1080, 0, imaging.Box)
 		mdFile, _ := os.Create(mdImg)
 		jpeg.Encode(mdFile, reimg, nil)
 	} else {
 		os.Symlink(lgImg, mdImg)
 	}
-	if img.Data.Bounds().Dy() > 720 {
-		reimg := imaging.Resize(img.Data, 0, 720, imaging.Box)
+	if img.Data.Bounds().Dx() > 720 {
+		reimg := imaging.Resize(img.Data, 720, 0, imaging.Box)
 		smFile, _ := os.Create(smImg)
 		jpeg.Encode(smFile, reimg, nil)
 	} else {
