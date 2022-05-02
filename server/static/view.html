@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Browser</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            height: 100%;
+            background-color: black;
+        }
+        img {
+            width: 100%;
+        }
+        ul {
+            list-style: none;
+        }
+        .nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: stretch;
+        }
+        .nav a, .upload {
+            text-decoration: none;
+            font-family: monospace;
+            color: white;
+            width: 100%;
+            padding: 10%;
+            font-size: large;
+            display: block;
+            text-align: center;
+        }
+        .nav .left {
+            text-align: left;
+        }
+        .nav .right {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        {{range .List}}
+        <li>
+            <a href="/static/lg/{{.Original}}">
+                <picture>
+                    <source media="(min-width: 1920px)" srcset="/static/md/{{.Filename}}.jpeg">
+                    <source media="(min-width: 1080px)" srcset="/static/md/{{.Filename}}.jpeg">
+                    <source media="(min-width: 720px)" srcset="/static/sm/{{.Filename}}.jpeg">
+                    <img src="/static/sm/{{.Filename}}.jpeg" alt="image">
+                </picture>
+            </a>
+        </li>
+        {{end}}
+    </ul>
+    <div class="nav">
+        <a href="/view?page={{.Prev}}" class="left">Prev</a>
+        <a href="/view?page={{.Next}}" class="right">Next</a>
+    </div>
+    <footer>
+        <a href="/upload" class="upload">Upload</a>
+    </footer>
+</body>
+</html>
