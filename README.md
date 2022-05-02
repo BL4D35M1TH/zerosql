@@ -1,4 +1,11 @@
-# Image Database
+# Image Management System
 A system to store and retrieve images based upon several factors like tags, size, difference hash, etc.
 
-I plan to plug it into a server together with a frontend and create my own image management system.
+## Package CMD
+Handles running the entire thing after reading configs
+
+## Package Database
+Stores image metadata and files and provides an API to manipulate them
+
+## Package Server
+Handles routing, rendering web pages, http requests, etc
